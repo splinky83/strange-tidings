@@ -1,0 +1,50 @@
+org: liampersonal
+app: tidings
+service: tidings	
+
+provider:
+  name: aws
+  stage: beta
+  region: ap-southeast-2
+  runtime: nodejs18.x 	
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem          
+          Resource: '*'
+
+functions:
+  tidings:
+    handler: lambda.handler	
+    environment:
+      DISCORD_TOKEN: ${ssm:/${opt:stage}/DISCORD_TOKEN}
+      APP_ID: ${ssm:/${opt:stage}/APP_ID}
+      PUBLIC_KEY: ${ssm:/${opt:stage}/PUBLIC_KEY}
+      ADMIN_USERS: ${ssm:/${opt:stage}/ADMIN_USERS}
+    events:
+      - http:
+          method: post
+          path: /
+
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Factions
+        AttributeDefinitions:
+          - AttributeName: channelId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: channelId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
