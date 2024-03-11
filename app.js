@@ -81,6 +81,7 @@ FACTION:
   /viewfaction
   /updatefaction
 Would you like to learn more about Dice Rolls, Tables or Faction Management`,
+            flags: InteractionResponseFlags.EPHEMERAL,
             components: [
               {
                 type: MessageComponentTypes.ACTION_ROW,
@@ -125,8 +126,7 @@ Would you like to learn more about Dice Rolls, Tables or Faction Management`,
     const { custom_id } = data;
 
     if (custom_id.startsWith('help_')) {
-      const endpoint = `webhooks/${process.env.APP_ID}/${req.body.token}/messages/${req.body.message.id}`;
-      callControllerFunction({ options: [custom_id.split('_')[1], endpoint], res, controllerFunction: HandleHelpRequest });
+      callControllerFunction({ options: [custom_id.split('_')[1]], res, controllerFunction: HandleHelpRequest });
     }
 
   }

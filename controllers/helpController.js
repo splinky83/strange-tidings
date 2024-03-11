@@ -1,9 +1,7 @@
 const { InteractionResponseType, InteractionResponseFlags } = require('discord-interactions');
-const { DiscordRequest } = require('../utils');
 
 const HandleHelpRequest = async ({ res, options }) => {
   const topic = options[0];
-  const endpoint = options[1];
 
   switch (topic) {
     case 'dice':
@@ -28,7 +26,6 @@ The result will persist in the channel, and can be seen by all users.`,
         },
       });
       console.log('Reaching the point');
-      await DiscordRequest(endpoint, { method: 'DELETE' });
       break;
     case 'table':
       await res.send({
@@ -51,7 +48,6 @@ The dice rolls section will show you all the dice rolled (including any dice fro
 The result you roll will remain in the channel and will be visible to everyone.`,
         },
       });
-      await DiscordRequest(endpoint, { method: 'DELETE' });
       break;
     case 'faction':
       await res.send({
@@ -70,7 +66,6 @@ The view faction command will give you a summary of the faction tied to the chan
 The createfaction and viewfaction commands are ephemral. The respones will only be visible to you, and will only stay until dismissed. The updatefaction command will stay as a log of the update.`,
         },
       });
-      await DiscordRequest(endpoint, { method: 'DELETE' });
       break;
     default:
       await res.send({

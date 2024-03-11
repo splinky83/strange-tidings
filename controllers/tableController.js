@@ -37,7 +37,7 @@ const SelectTableAndRoll = ({ options, res, user }) => {
   return res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
-      content: `${user.global_name} Dice rolls (in order): ${finalPersistantValues.dice}, Result: ${rollResult.text}. ${finalPersistantValues.rollText} `,
+      content: `${user.global_name} - ${table}: Dice rolls (in order): ${finalPersistantValues.dice}, Result: ${rollResult.text}. ${finalPersistantValues.rollText} `,
     },
   });
 }
