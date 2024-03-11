@@ -4,7 +4,7 @@ const {
 
 const { Roll } = require('../services/diceService')
 
-const RollDice = ({ options, res }) => {
+const RollDice = ({ options, res, user }) => {
   const roll = options[0].value
   const rollParts = roll.split(/[dD]/)
   if (rollParts.length !== 2) {
@@ -16,12 +16,11 @@ const RollDice = ({ options, res }) => {
     throw new Error('Invalid No. Dice or No. Faces')
   }
 
-  console.log('Number of dice in controller', noDice)
   const rollResult = Roll({ noDice: noDice || 1, noFaces })
   return res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
-      content: `Total: ${rollResult.total}, Dice: ${rollResult.results}`,
+      content: `${user.global_name} ${roll} Total: ${rollResult.total}, Dice: ${rollResult.results}`,
     },
   });
 }

@@ -25,7 +25,7 @@ const rollOnTable = (table, persistantValues) => {
 
 }
 
-const SelectTableAndRoll = ({ options, res }) => {
+const SelectTableAndRoll = ({ options, res, user }) => {
   const table = options[0].value;
   let persistantValues = {
     dice: [],
@@ -37,7 +37,7 @@ const SelectTableAndRoll = ({ options, res }) => {
   return res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
-      content: `Dice rolls (in order): ${finalPersistantValues.dice}, Result: ${rollResult.text}. ${finalPersistantValues.rollText} `,
+      content: `${user.global_name} Dice rolls (in order): ${finalPersistantValues.dice}, Result: ${rollResult.text}. ${finalPersistantValues.rollText} `,
     },
   });
 }

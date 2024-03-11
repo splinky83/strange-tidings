@@ -17,7 +17,6 @@ const VerifyDiscordRequest = (clientKey) => {
 const DiscordRequest = async (endpoint, options) => {
   const url = 'https://discord.com/api/v10/' + endpoint;
   if (options.body) options.body = JSON.stringify(options.body);
-  console.log(fetch);
   const res = await fetch(url, {
     headers: {
       Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
@@ -28,7 +27,6 @@ const DiscordRequest = async (endpoint, options) => {
   });
   if (!res.ok) {
     const data = await res.json();
-    console.log(res.status);
     throw new Error(JSON.stringify(data));
   }
   return res;

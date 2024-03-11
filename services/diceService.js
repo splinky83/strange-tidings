@@ -2,9 +2,6 @@ const crypto = require('crypto');
 
 const Roll = ({ noDice, noFaces }) => {
 
-  console.log('Number of dice in service', noDice)
-
-
   const results = [];
 
   for (let i = 0; i < noDice; i++) {

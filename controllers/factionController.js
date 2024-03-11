@@ -20,6 +20,8 @@ const CreateFaction = async ({ res, user, channel, options }) => {
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
         content: "I'm sorry. You don't have access to this function.",
+        flags: InteractionResponseFlags.EPHEMERAL,
+
       },
     });
   }
@@ -164,7 +166,7 @@ const HandleFactionUpdate = async ({ options, res, user, channel }) => {
   return res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
-      content: `Update completed:
+      content: `${user.global_name} Update completed:
 ${getFactionDetails(faction)}`,
     },
   });

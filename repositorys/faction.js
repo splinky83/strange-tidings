@@ -8,7 +8,7 @@ const createFactionRecord = async (factionInfo) => {
   const input = {
     "Item": marshall(factionInfo),
     "ReturnConsumedCapacity": "TOTAL",
-    "TableName": "Factions"
+    "TableName": process.env.FACTION_TABLE
   };
   const command = new PutItemCommand(input);
   return await client.send(command);
@@ -24,7 +24,7 @@ const getFactionRecord = async (channelId) => {
       }
     },
     "KeyConditionExpression": "channelId = :v1",
-    "TableName": "Factions"
+    "TableName": process.env.FACTION_TABLE
   };
   const command = new QueryCommand(input);
   const response = await client.send(command);
@@ -60,7 +60,7 @@ const updateFactionRecord = async ({ attribute, newValue, channelId }) => {
       }
     },
     "ReturnValues": "ALL_NEW",
-    "TableName": "Factions",
+    "TableName": process.env.FACTION_TABLE,
     "UpdateExpression": "SET #A = :v"
   };
   const command = new UpdateItemCommand(input);

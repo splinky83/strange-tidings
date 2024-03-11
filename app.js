@@ -25,6 +25,7 @@ const callControllerFunction = async ({ options, res, user, channel, controllerF
     return res.send({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
+        flags: InteractionResponseFlags.EPHEMERAL,
         content: "Sorry, I didn't quite get that. Either I'm not working properly, or a cat walked over your keyboard."
       },
     });
@@ -69,7 +70,7 @@ app.post('/', async function (req, res) {
         res.send({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
           data: {
-            content: `The strange tidings app allows you to simulate dice rolls, roll on Strange Tides or basic Mordhiem tables. It also allows you to manage a Strange Tides Faction.
+            content: `The strange tidings app allows you to simulate dice rolls, roll on Strange Tides or basic Mordhiem tables or manage a Strange Tides Faction.
 the commands available through this app are:
 DICE:
   /strangeroll
@@ -105,7 +106,6 @@ Would you like to learn more about Dice Rolls, Tables or Faction Management`,
                 ],
               },
             ],
-            flags: InteractionResponseFlags.EPHEMERAL,
           },
         });
         break;
@@ -114,6 +114,7 @@ Would you like to learn more about Dice Rolls, Tables or Faction Management`,
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
           data: {
             content: "Dont know how you even got here, but there is nothing for you here.",
+            flags: InteractionResponseFlags.EPHEMERAL,
           },
         });
         break;
@@ -124,7 +125,8 @@ Would you like to learn more about Dice Rolls, Tables or Faction Management`,
     const { custom_id } = data;
 
     if (custom_id.startsWith('help_')) {
-      callControllerFunction({ options: [custom_id.split('_')[1]], res, controllerFunction: HandleHelpRequest });
+      const endpoint = `webhooks/${process.env.APP_ID}/${req.body.token}/messages/${req.body.message.id}`;
+      callControllerFunction({ options: [custom_id.split('_')[1], endpoint], res, controllerFunction: HandleHelpRequest });
     }
 
   }

@@ -28,6 +28,7 @@ functions:
       APP_ID: ${ssm:/${opt:stage}/APP_ID}
       PUBLIC_KEY: ${ssm:/${opt:stage}/PUBLIC_KEY}
       ADMIN_USERS: ${ssm:/${opt:stage}/ADMIN_USERS}
+      FACTION_TABLE: Factions-${opt:stage}
     events:
       - http:
           method: post
@@ -38,7 +39,7 @@ resources:
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: Factions
+        TableName: Factions-${opt:stage}
         AttributeDefinitions:
           - AttributeName: channelId
             AttributeType: S
