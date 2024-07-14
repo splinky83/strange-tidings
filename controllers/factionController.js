@@ -1,7 +1,7 @@
 const { marshall } = require("@aws-sdk/util-dynamodb");
 const { InteractionResponseType, InteractionResponseFlags } = require('discord-interactions');
 const { Thresholds } = require('../data/factionThresholds')
-const { createFactionRecord, getFactionRecord, updateFactionRecord } = require('../repositorys/faction')
+const { createFactionRecord, getFactionRecord, updateFactionRecord } = require('../repositorys/faction');
 const { Defaults } = require('../data/factionDefaults');
 
 const checkAdmin = (user) => {
@@ -21,7 +21,6 @@ const CreateFaction = async ({ res, user, channel, options }) => {
       data: {
         content: "I'm sorry. You don't have access to this function.",
         flags: InteractionResponseFlags.EPHEMERAL,
-
       },
     });
   }
@@ -38,28 +37,6 @@ const CreateFaction = async ({ res, user, channel, options }) => {
     });
   }
 
-  const sedantryFactionAttributes = marshall({
-    channelId: channel.id,
-    factionName: faction,
-    factionPoints: 0,
-    foodProducers: 0,
-    miners: 0,
-    merchants: 0,
-    soldiers: 0,
-    builders: 0,
-    diplomats: 0,
-    scholars: 0,
-    acolytes: 0,
-    garrisons: 0,
-    special: 0,
-  });
-
-  const rovingFactionAttributes = marshall({
-    channelId: channel.id,
-    factionName: faction,
-    factionPoints: 0,
-  });
-
   await createFactionRecord({ ...Defaults[faction], channelId: channel.id, factionName: faction });
 
   return res.send({
@@ -74,11 +51,15 @@ const CreateFaction = async ({ res, user, channel, options }) => {
 
 const getFactionDetails = (faction) => {
 
+  const populationTotal = faction.foodProducers + faction.miners + faction.merchants + faction.soldiers + faction.builders + faction.diplomats + faction.scholars + faction.acolytes + faction.garrisons + faction.special + faction.unassigned
+
   const population = faction.factionName === 'chaos' ? '' : `Population:
 ++++++++++
+Total Population: ${populationTotal}
 Food Producers: ${faction.foodProducers}, Miners: ${faction.miners}, Merchants: ${faction.merchants},
 Soldiers: ${faction.soldiers}, Builders: ${faction.builders}, Diplomats: ${faction.diplomats},
 Scholars: ${faction.scholars}, Acolytes: ${faction.acolytes}, Garrison: ${faction.garrisons}, Special: ${faction.special}
+Unassigned: ${faction.unassigned}
 ====================================`
 
   return `Faction Details - ${faction.factionName}

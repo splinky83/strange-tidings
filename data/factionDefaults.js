@@ -11,6 +11,7 @@ const Defaults = {
     acolytes: 1,
     garrisons: 0,
     special: 0,
+    unassigned: 0
   },
   gravehammersrest: {
     factionPoints: 0,
@@ -24,6 +25,7 @@ const Defaults = {
     acolytes: 0,
     garrisons: 0,
     special: 2,
+    unassigned: 0
   },
   startower: {
     factionPoints: 0,
@@ -37,6 +39,7 @@ const Defaults = {
     acolytes: 0,
     garrisons: 1,
     special: 1,
+    unassigned: 0
   },
   chaos: {
     factionPoints: 0,

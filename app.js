@@ -19,6 +19,7 @@ app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
 
 const callControllerFunction = async ({ options, res, user, channel, controllerFunction }) => {
   try {
+    console.log('Has to log this first. HAS TO');
     await controllerFunction({ options, res, user, channel })
   } catch (err) {
     console.log(err.message);
@@ -49,9 +50,11 @@ app.post('/', async function (req, res) {
 
     switch (name) {
       case 'strangeroll':
+      case 'sr':
         callControllerFunction({ options, res, user: member.user, channel, controllerFunction: RollDice });
         break;
       case 'strangetable':
+      case 'st':
         callControllerFunction({ options, res, user: member.user, channel, controllerFunction: SelectTableAndRoll });
         break;
       case 'strangefaction':

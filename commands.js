@@ -9,17 +9,10 @@ const STRANGE_TABLES = [
   {
     name: 'Advancement - Henchmen',
     value: 'advhench'
-  }
-]
-
-const STRANGE_FACTION_COMMANDS = [
-  {
-    name: 'Create Faction',
-    value: 'create'
   },
   {
-    name: 'View Faction',
-    value: 'view'
+    name: 'Injury',
+    value: 'injury'
   }
 ]
 
@@ -87,6 +80,10 @@ STRANGE_FACTION_ATTRIBUTES = [
     name: 'Special',
     value: 'special'
   },
+  {
+    name: 'Unassigned',
+    value: 'unassigned'
+  }
 ]
 
 const ALL_COMMANDS = [
@@ -148,6 +145,33 @@ const ALL_COMMANDS = [
   },
   {
     name: 'strangetable',
+    description: 'Roll on a table',
+    options: [
+      {
+        type: 3,
+        name: 'table',
+        description: 'Select table',
+        required: true,
+        choices: STRANGE_TABLES
+      },
+    ],
+    type: 1,
+  },
+  {
+    name: 'sr',
+    description: 'Roll some dice',
+    options: [
+      {
+        type: 3,
+        name: 'dice',
+        description: '<No.dice>d<No.faces>',
+        required: true,
+      },
+    ],
+    type: 1,
+  },
+  {
+    name: 'st',
     description: 'Roll on a table',
     options: [
       {

@@ -2,32 +2,13 @@ const {
   InteractionResponseType,
 } = require('discord-interactions');
 const Tables = require('../data/tables/tables')
+const { rollOnTable } = require('./tableRoller');
+const { Roll } = require('../services/diceService')
 
-
-const rollOnTable = (table, persistantValues) => {
-
-  const { total: diceResult, results: dice, rollText } = table.diceRoll();
-
-  persistantValues.dice.push(dice)
-  persistantValues.rollText.push(rollText)
-
-  const tableResult = table.entries.filter(entry => diceResult >= entry.lowerBounds && diceResult <= entry.upperBounds)
-
-  if (tableResult.length !== 1) {
-    throw new Error('Invalid result Length')
-  }
-
-  if (tableResult[0].nested) {
-    return rollOnTable(tableResult[0].nested, persistantValues)
-  }
-
-  return { rollResult: tableResult[0], finalPersistantValues: persistantValues, };
-
-}
 
 const SelectTableAndRoll = ({ options, res, user }) => {
   const table = options[0].value;
-  let persistantValues = {
+  const persistantValues = {
     dice: [],
     rollText: [],
   };
@@ -37,7 +18,7 @@ const SelectTableAndRoll = ({ options, res, user }) => {
   return res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
-      content: `${user.global_name} - ${table}: Dice rolls (in order): ${finalPersistantValues.dice}, Result: ${rollResult.text}. ${finalPersistantValues.rollText} `,
+      content: `${user.global_name} - ${table} Dice rolls (in order): ${finalPersistantValues.dice}, Result: ${rollResult.text()} ${finalPersistantValues.rollText.filter(value => value !== undefined)} `,
     },
   });
 }
